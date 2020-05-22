@@ -146,7 +146,7 @@
 				document.getElementById("encoded").innerHTML = ('Copy this:'+encodedText+'<br><strong>Key:</strong>'+key);
 			}
 			else
-				alert("Please enter something.");
+				alert("Please enter something in all boxes of the encoding section.");
 			
 			}
 			call.decodeText=function(){
@@ -156,6 +156,9 @@
 				var element="";
 				var decodedText="";
 				var j=0;
+				if(text==""||keyText=="")
+					alert("Please enter something in all boxes of the decoding section.");
+				else{
 				for(var i=0;i<keyText.length;i++)
 				{
 					if(keyText.charAt(i)!=',')
@@ -181,13 +184,13 @@
 						decodedText+=String.fromCharCode(n);
 					}
 				/*Use to check algorithmic correctness.
-						console.log(text);
-						console.log(encodedText);
-						console.log(key);
-						console.log(check);
+						console.log(keyText);
+						console.log(decodedText);
+						console.log(keyFinal);
 				*/
 				
 				document.getElementById("decoded").innerHTML = 'Final decoded message:<br>'+ decodedText;
+			}
 			}
 			global.$call = call;
 		})(window);
