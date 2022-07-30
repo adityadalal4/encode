@@ -1,217 +1,79 @@
-<!DOCTYPE html>
-<html>
-<head>
-	<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>encode</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed&display=swap" rel="stylesheet">
-   	<style>
-
-   		body{
-   			background-color:#003366;
-   			background-image: url('https://cdn1.iconfinder.com/data/icons/snowy-christmas/96/christmas_snowflake_winter_snow_newyear_96-512.png');
-   			background-position: 0px;
-   			animation: Animations linear 30s infinite;
-   			background-repeat: repeat;
-			position:relative;
-   		}
-   		@keyframes Animations{
-   			0%{
-   				background-position: 0px 0px;
-   			}
-   			100%{
-   				background-position: 700px 700px;
-   			}
-   		}
-   		.half-screen{
-   			width:50%;
-   			height:250px;
-   			margin-top:150px;
-   			color:#FFFF00;
-   			font-weight:bold;
-   			text-align:center;
-   			font-size:1.5em;
-   			overflow:auto;
-   		}
-   		input{
-   			background-color:#003366;
-   			color:#FFFFFF;
-   		}
-   		button{
-   			background-color:#003366;
-   			color:#FFFFFF;
-   			font-weight:bold;
-   		}
-   		button:hover{
-   			background-color:#FFFFFF;
-   			color:#003366;
-   		}
-   		#no1{
-   			float:left;
-   			background-color:#00CED1;
-   			animation: Animationcolorone linear 1s infinite;
-   		}
-   		#no2{
-   			float:right;
-   			background-color:#008080 ;
-   			animation: Animationcolortwo linear 1s infinite;
-   		}
-   	    h1{
-   	    	color:#20B2AA;
-   	    	text-align:center;
-   	    	margin-top:50px;
-   	    	font-weight:bold;
-   	    	font-size:5em;
-   	    }
-   		@keyframes Animationcolorone{
-   			0%{
-   				background-color:#00CED1;
-   			}
-   			100%{
-   				background-color:#20B2AA ;
-   			}
-   		}
-   		@keyframes Animationcolortwo{
-   			0%{
-   				background-color:#008080;
-   			}
-   			100%{
-   				background-color:#4682B4 ;
-   			}
-   		}
-		#copyright{
-			color:#20B2AA;
-   	    		text-align:center;
-			clear:both;
-   	    		font-weight:bold;
-   	    		font-size:1.2em;
-			margin-top:300px;
-		}
-   		@media(max-width:750px)
-   		{
-   			.half-screen{
-   				width:90%;
-   				margin-top:10px;
-   			}
-   			h1{
-   				font-size:2.5em;
-   			}
-			#copyright{
-   	    			font-size:1em;
-				margin-top:550px;
-			}
-   		}
-		
-   	</style>
-  </head>
- <body>
- 	<h1>ENCODE AND DECODE MESSAGES.</h1>
- <div class="container">
- 	<div class="half-screen" id="no1">
- 	<h2>Encode messages</h2>
- 	<div>Enter text to be encoded.</div>
- 	<input id="encoding"></input>
- 	<button onclick="$call.encodeText();">Generate code and key.</button><br>
- 	<div id="encoded"></div>
- </div>
- <div class="half-screen" id="no2">
- 	<h2>Decode messages</h2>
- 	<div> Enter decoding text.</div>
- 	<input id="decoding"></input>
- 	<div>Enter key.</div>
- 	<input id="keyValue"></input>
- 	<button onclick="$call.decodeText();">Decode.</button>
- 	<div id="decoded"></div>
- </div>
-	<div class="container">
-		<br><div id="copyright">&copy; ADITYA DALAL 2020 </div>
-	</div>
-  </body>
-   <script>
- 		(function (global) {
-			var call = {};
-			call.encodeText=function(){
-				var text=document.getElementById("encoding").value;
-				var key=new Array();
-				var d=new Array();
-				var encodedText="";
-				if(text!=""){
-					for(var i=0;i<text.length;i++)
-					{
-						var n=text.charCodeAt(i);
-						// Use to check algortihtmic correctness console.log(n);
-						var newChange=Math.floor((Math.random() * 96) + 30);
-						if(n+newChange>127)
-							n=n+newChange-97;
-							
-						else
-							n+=newChange;
-						key[i]=n-text.charCodeAt(i);
-						encodedText+=String.fromCharCode(n);
-					}
-				/*Use to check algorithmic correctness.
-						console.log(text);
-						console.log(encodedText);
-						console.log(key);
-						console.log(check);
-				*/
-				
-				document.getElementById("encoded").innerHTML = ('Copy this:'+encodedText+'<br><strong>Key:</strong>'+key);
-			}
-			else
-				alert("Please enter something in all boxes of the encoding section.");
-			
-			}
-			call.decodeText=function(){
-				var text=document.getElementById("decoding").value;
-				var keyText=document.getElementById("keyValue").value;
-				var keyFinal=new Array();
-				var element="";
-				var decodedText="";
-				var j=0;
-				if(text==""||keyText=="")
-					alert("Please enter something in all boxes of the decoding section.");
-				else{
-				for(var i=0;i<keyText.length;i++)
-				{
-					if(keyText.charAt(i)!=',')
-					{
-						element+=keyText.charAt(i);
-						continue;
-					}
-					keyFinal[j++]=element;
-					if(i==keyText.length)
-						break;
-					element="";
-				}
-				keyFinal[j]=element;
-				console.log(keyFinal);
-				for(var i=0;i<text.length;i++)
-					{
-						var n=text.charCodeAt(i);
-						// Use to check algortihtmic correctness console.log(n);
-						if(n-keyFinal[i]<31)
-							n=n-keyFinal[i]+30;
-						else
-							n-=keyFinal[i];
-						decodedText+=String.fromCharCode(n);
-					}
-				/*Use to check algorithmic correctness.
-						console.log(keyText);
-						console.log(decodedText);
-						console.log(keyFinal);
-				*/
-				
-				document.getElementById("decoded").innerHTML = 'Final decoded message:<br>'+ decodedText;
-			}
-			}
-			global.$call = call;
-		})(window);
-	
- 	</script>
-</html>
+<HTML>
+<HEAD>
+<TITLE>
+GAMER
+</TITLE>
+<style>
+    body{
+        background-color:green;
+        font-style: Italic;
+        font-size: 1.5em;
+    }
+</style>
+<HEAD>
+<BODY>
+    <form>
+        <div>Actual non-renewable energy<input type="number" id="Target1"></div>
+        <div>Actual renewable energy<input type="number" id="Target2"></div>
+        <div>Target non-renewable<input type="number" id="Target3"></div>
+        <div>Target renewable<input type="number" id="Target4"></div>
+        <div>Total non-renewable <input type="text" id="x"></div>
+        <div>CO2 emissions <input type="text" id="y"></div>
+        <div>Total<input type="text" id="X"></div>
+        <div>Energy per capita<input type="text" id="Y"></div>
+        <input type="Submit" onclick="calculate()">
+    </form>
+    <p id="Result"></p>
+<SCRIPT>
+    var shiv1=0;
+    var shiv2=0;
+    var shiv3=0;
+    var shiv4=0;
+    var shiv5=0;
+    var shiv6=0;
+    var shiv7=0;
+    var shiv8=0;
+    
+const x = document.getElementById('x').value;
+const y = document.getElementById('y').value;
+const X = document.getElementById('X').value;
+const Y = document.getElementById('Y').value;
+for(var i=0;i<x.length;i++){
+    if(x[i]!=','){
+        shiv1+=int(x[i])/int(x[0])*100;
+        shiv2+=int(y[i])/int(y[0])*100;
+        shiv3+=int(X[i])/int(X[0])*100;
+        shiv4+=int(Y[i])/int(Y[0])*100;
+    }
+    
+}
+shiv1/=x.length;
+shiv2/=x.length;
+shiv3/=x.length;
+shiv4/=x.length;
+for(var i=0;i<x.length;i++){
+    shiv5+=Math.pow((shiv1-int(x[i])/int(x[0])*100),2);
+    shiv6+=Math.pow((shiv2-int(y[i])/int(y[0])*100),2);
+    shiv7+=Math.pow((shiv3-int(X[i])/int(X[0])*100),2);
+    shiv8+=Math.pow((shiv4-int(Y[i])/int(Y[0])*100),2);
+}
+m1=shiv6/shiv5;
+m2=shiv8/shiv7;
+c1=shiv2-m1*shiv1;
+c2=shiv4-m2*shiv3;
+a=m2/m1;
+b=m2;
+c=c2-m2/m1*c1;
+d=m1;
+e=c1;
+function calculate() {
+    var x1=document.getElementById("Target1").value;
+    var y1=document.getElementById("Target2").value;
+    var x2=document.getElementById("Target3").value;
+    var y2=document.getElementById("Target4").value;
+    console.log(x1);
+console.log(1/(Math.pow(Math.pow((b*y1+c)*d/Math.pow(d*x1+e,2),2)+Math.pow(b/(d*x1+e),2),(1/2)))/1/((b*y1+c)*d/Math.pow(d*x1+e,2)*Math.sin(Math.atan((y2-y1)/(x2-x1)))+(b/(d*x1+e))*Math.cos(Math.atan((y2-y1)/(x2-x1)))));
+}
+</SCRIPT>
+</BODY>
+</HTML>
